@@ -31,6 +31,12 @@ class ArticleRepository extends Repository
 
     public function addArticle($request)
     {
+
+        if (\Gate::denies('store', $this->model)) {
+            echo 'You have no-permission';
+            exit();
+        }
+
         $data = $request->except('_token', 'image');
 
         if (empty($data['slug'])) {

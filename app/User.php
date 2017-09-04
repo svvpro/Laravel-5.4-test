@@ -32,4 +32,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Article::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function canDo($permission)
+    {
+        foreach ($this->roles as $role) {
+            foreach ($role->perms as $perm) {
+                if ($perm->name === $permission) {
+                    return TRUE;
+                }
+            }
+        }
+    }
 }

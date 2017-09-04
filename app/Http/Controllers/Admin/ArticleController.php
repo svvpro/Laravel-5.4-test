@@ -21,8 +21,14 @@ class ArticleController extends AdminController
         $this->template = 'admin.index';
     }
 
-    public function index()
+    public function index(Article $article)
     {
+
+        if (\Gate::denies('index', $article)) {
+            echo 'You have no-permission';
+            exit();
+        }
+
         $this->title = 'Articles manager';
 
         $articles = $this->a_rep->getAllArticles();
@@ -38,8 +44,13 @@ class ArticleController extends AdminController
         return $this->renderOutput();
     }
 
-    public function create()
+    public function create(Article $article)
     {
+        if (\Gate::denies('create', $article)) {
+            echo 'You have no-permission';
+            exit();
+        }
+
         $this->title = 'Create article';
 
         $tags = Tag::pluck('name', 'id');

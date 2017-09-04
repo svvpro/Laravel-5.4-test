@@ -18,18 +18,29 @@ Route::get('/', function () {
 Route::get('articles', 'ArticleController@index');
 Route::get('articles/{article}', 'ArticleController@show');
 
-Route::prefix('admin')->group(function(){
+Route::prefix('admin')->group(function () {
     Route::get('/', 'Admin\IndexController@index');
 
     Route::resource('articles', 'Admin\ArticleController', [
-        'names'=>[
-            'index'=>'admin.articles.index',
-            'show'=>'admin.articles.show',
-            'create'=>'admin.articles.create',
-            'store'=>'admin.articles.store',
-            'edit'=>'admin.articles.edit',
-            'update'=>'admin.articles.update',
-            'destroy'=>'admin.articles.destroy',
+        'names' => [
+            'index' => 'admin.articles.index',
+            'show' => 'admin.articles.show',
+            'create' => 'admin.articles.create',
+            'store' => 'admin.articles.store',
+            'edit' => 'admin.articles.edit',
+            'update' => 'admin.articles.update',
+            'destroy' => 'admin.articles.destroy',
+        ]
+    ]);
+
+    Route::resource('permissions', 'Admin\PermissionController', [
+        'only' => [
+            'index',
+            'store'
+        ],
+        'names' => [
+            'index' => 'admin.permissions.index',
+            'store' => 'admin.permissions.store',
         ]
     ]);
 });
